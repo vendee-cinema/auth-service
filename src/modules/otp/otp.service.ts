@@ -21,11 +21,17 @@ export class OtpService {
 		return code
 	}
 
-	public async verify(identifier: string, code: string, type: 'phone' | 'email') {
+	public async verify(
+		identifier: string,
+		code: string,
+		type: 'phone' | 'email'
+	) {
 		const storedHash = await this.redis.get(`otp:${type}:${identifier}`)
-		if (!storedHash) throw new RpcException('Invalid or expired code')
+		if (!storedHash)
+			throw new RpcException({ code: 5, details: 'Invalid or expired code' })
 		const incomingHash = createHash('sha256').update(code).digest('hex')
-		if (storedHash !== incomingHash) throw new RpcException('Invalid or expired code')
+		if (storedHash !== incomingHash)
+			throw new RpcException({ code: 5, details: 'Invalid or expired code' })
 		await this.redis.del(`otp:${type}:${identifier}`)
 	}
 }

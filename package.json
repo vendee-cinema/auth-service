@@ -31,7 +31,7 @@
     "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^7.4.2",
     "@vendee-cinema/contracts": "^1.0.1",
-    "@vendee-cinema/core": "^1.0.3",
+    "@vendee-cinema/core": "^1.0.4",
     "ioredis": "^5.10.0",
     "patcode": "^1.0.1",
     "prisma": "^7.4.2",
