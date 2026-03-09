@@ -20,10 +20,21 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.14.3",
+    "@grpc/proto-loader": "^0.8.0",
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/mapped-types": "*",
+    "@nestjs/microservices": "^11.1.16",
     "@nestjs/platform-express": "^11.0.1",
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^7.4.2",
+    "@vendee-cinema/contracts": "^1.0.1",
     "@vendee-cinema/core": "^1.0.3",
+    "ioredis": "^5.10.0",
+    "patcode": "^1.0.1",
+    "prisma": "^7.4.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
