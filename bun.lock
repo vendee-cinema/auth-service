@@ -16,7 +16,7 @@
         "@prisma/adapter-pg": "^7.4.2",
         "@prisma/client": "^7.4.2",
         "@vendee-cinema/common": "^1.0.0",
-        "@vendee-cinema/contracts": "^1.0.1",
+        "@vendee-cinema/contracts": "^1.0.3",
         "@vendee-cinema/core": "^1.0.4",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.15.1",
@@ -508,7 +508,7 @@
 
     "@vendee-cinema/common": ["@vendee-cinema/common@1.0.0", "", {}, "sha512-lg/bNlYAEoZKwLxaMNhMpXqL0AF/vhrhxDPpy8ndIgaCeO4dZTyLqf1ZVDchJKzkJ3uz0Vz4lc4of89b0eavjg=="],
 
-    "@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.0.1", "", { "dependencies": { "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-Be75z8MD07FHpo9rxcBb3O0RZtK9uUjbhClTCZ/YNXIsERD9sz6/HOnXDnsPjCSP+8w0zMUgZmm4KWkj4goQGQ=="],
+    "@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.0.3", "", { "dependencies": { "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-w+u+vlKg1OGQbEMJ7XTRQK0CzHYz/gqiW2u83uemqUAcmKhRiDTmXRC/WZ5G0/K5m8VRev4Ahx17Cc6IlVUJWQ=="],
 
     "@vendee-cinema/core": ["@vendee-cinema/core@1.0.4", "", { "dependencies": { "@trivago/prettier-plugin-sort-imports": "6.0.2" }, "peerDependencies": { "prettier": "^3.8.1" } }, "sha512-Ik86wW9E01v5/4Ko8qkmhHOSGJgjbTQB28KWJ/23sxN0A0dKkR8pQ9V4lcN38py+QbvX4SlgT4DoUNfSbzf3qw=="],
 
@@ -1452,7 +1452,7 @@
 
     "ts-poet": ["ts-poet@6.12.0", "", { "dependencies": { "dprint-node": "^1.0.8" } }, "sha512-xo+iRNMWqyvXpFTaOAvLPA5QAWO6TZrSUs5s4Odaya3epqofBu/fMLHEWl8jPmjhA0s9sgj9sNvF1BmaQlmQkA=="],
 
-    "ts-proto": ["ts-proto@2.11.4", "", { "dependencies": { "@bufbuild/protobuf": "^2.10.2", "case-anything": "^2.1.13", "ts-poet": "^6.12.0", "ts-proto-descriptors": "2.1.0" }, "bin": { "protoc-gen-ts_proto": "protoc-gen-ts_proto" } }, "sha512-LGf1llYT/YsZRIzz3nzBei5mR8Sq0xmrL0cI36Pdiuok2V4PHiDuXQGP+D9i3NzChuwURPo8KAmGV1HLH0xHyw=="],
+    "ts-proto": ["ts-proto@2.11.5", "", { "dependencies": { "@bufbuild/protobuf": "^2.10.2", "case-anything": "^2.1.13", "ts-poet": "^6.12.0", "ts-proto-descriptors": "2.1.0" }, "bin": { "protoc-gen-ts_proto": "protoc-gen-ts_proto" } }, "sha512-Ua2Mu92MhCkOCQgOTn00jOZaOE51JHW/Zfmf65Gtp7mOe2DxUVjKvaedayjQ0SVrblyCVSKCm2tAX/2FWgiFzQ=="],
 
     "ts-proto-descriptors": ["ts-proto-descriptors@2.1.0", "", { "dependencies": { "@bufbuild/protobuf": "^2.0.0" } }, "sha512-S5EZYEQ6L9KLFfjSRpZWDIXDV/W7tAj8uW7pLsihIxyr62EAVSiKuVPwE8iWnr849Bqa53enex1jhDUcpgquzA=="],
 
