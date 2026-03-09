@@ -15,6 +15,7 @@
         "@nestjs/platform-express": "^11.0.1",
         "@prisma/adapter-pg": "^7.4.2",
         "@prisma/client": "^7.4.2",
+        "@vendee-cinema/common": "^1.0.0",
         "@vendee-cinema/contracts": "^1.0.1",
         "@vendee-cinema/core": "^1.0.4",
         "ioredis": "^5.10.0",
@@ -500,6 +501,8 @@
     "@unrs/resolver-binding-win32-ia32-msvc": ["@unrs/resolver-binding-win32-ia32-msvc@1.11.1", "", { "os": "win32", "cpu": "ia32" }, "sha512-DCEI6t5i1NmAZp6pFonpD5m7i6aFrpofcp4LA2i8IIq60Jyo28hamKBxNrZcyOwVOZkgsRp9O2sXWBWP8MnvIQ=="],
 
     "@unrs/resolver-binding-win32-x64-msvc": ["@unrs/resolver-binding-win32-x64-msvc@1.11.1", "", { "os": "win32", "cpu": "x64" }, "sha512-lrW200hZdbfRtztbygyaq/6jP6AKE8qQN2KvPcJ+x7wiD038YtnYtZ82IMNJ69GJibV7bwL3y9FgK+5w/pYt6g=="],
+
+    "@vendee-cinema/common": ["@vendee-cinema/common@1.0.0", "", {}, "sha512-lg/bNlYAEoZKwLxaMNhMpXqL0AF/vhrhxDPpy8ndIgaCeO4dZTyLqf1ZVDchJKzkJ3uz0Vz4lc4of89b0eavjg=="],
 
     "@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.0.1", "", { "dependencies": { "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-Be75z8MD07FHpo9rxcBb3O0RZtK9uUjbhClTCZ/YNXIsERD9sz6/HOnXDnsPjCSP+8w0zMUgZmm4KWkj4goQGQ=="],
 
