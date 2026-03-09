@@ -1,19 +1,31 @@
-import { Injectable, Logger, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common'
+import {
+	Injectable,
+	Logger,
+	type OnModuleDestroy,
+	type OnModuleInit
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/generated/client'
 
+import type { AllConfigs } from '@/config/interfaces'
+
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+export class PrismaService
+	extends PrismaClient
+	implements OnModuleInit, OnModuleDestroy
+{
 	private readonly logger = new Logger(PrismaService.name)
 
-	public constructor(private readonly configService: ConfigService) {
+	public constructor(
+		private readonly configService: ConfigService<AllConfigs>
+	) {
 		const adapter = new PrismaPg({
-			user: configService.getOrThrow<string>('POSTGRES_USER'),
-			password: configService.getOrThrow<string>('POSTGRES_PASSWORD'),
-			host: configService.getOrThrow<string>('POSTGRES_HOST'),
-			port: configService.getOrThrow<number>('POSTGRES_PORT'),
-			database: configService.getOrThrow<string>('POSTGRES_DATABASE')
+			user: configService.get('database.user', { infer: true }),
+			password: configService.get('database.password', { infer: true }),
+			host: configService.get('database.host', { infer: true }),
+			port: configService.get('database.port', { infer: true }),
+			database: configService.get('database.name', { infer: true })
 		})
 		super({ adapter })
 	}

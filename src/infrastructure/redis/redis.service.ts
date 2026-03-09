@@ -1,17 +1,29 @@
-import { Injectable, Logger, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common'
+import {
+	Injectable,
+	Logger,
+	type OnModuleDestroy,
+	type OnModuleInit
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import Redis from 'ioredis'
 
+import type { AllConfigs } from '@/config/interfaces'
+
 @Injectable()
-export class RedisService extends Redis implements OnModuleInit, OnModuleDestroy {
+export class RedisService
+	extends Redis
+	implements OnModuleInit, OnModuleDestroy
+{
 	private readonly logger = new Logger(RedisService.name)
 
-	public constructor(private readonly configService: ConfigService) {
+	public constructor(
+		private readonly configService: ConfigService<AllConfigs>
+	) {
 		super({
-			username: configService.getOrThrow<string>('REDIS_USER'),
-			password: configService.getOrThrow<string>('REDIS_PASSWORD'),
-			host: configService.getOrThrow<string>('REDIS_HOST'),
-			port: configService.getOrThrow<number>('REDIS_PORT'),
+			username: configService.get('redis.user', { infer: true }),
+			password: configService.get('redis.password', { infer: true }),
+			host: configService.get('redis.host', { infer: true }),
+			port: configService.get('redis.port', { infer: true }),
 			maxRetriesPerRequest: 5,
 			enableOfflineQueue: true
 		})
@@ -28,7 +40,9 @@ export class RedisService extends Redis implements OnModuleInit, OnModuleDestroy
 			this.logger.log(`Redis connected in ${ms} ms`)
 		})
 
-		this.on('error', error => this.logger.error('Redis error: ', { error: error.message ?? error }))
+		this.on('error', error =>
+			this.logger.error('Redis error: ', { error: error.message ?? error })
+		)
 
 		this.on('close', () => this.logger.warn('Redis connection closed'))
 
