@@ -35,6 +35,7 @@ export default tseslint.config(
 			'@typescript-eslint/restrict-template-expressions': 'off',
 			'@typescript-eslint/no-unsafe-assignment': 'off',
 			'@typescript-eslint/no-redundant-type-constituents': 'off',
+			'@typescript-eslint/require-await': 'off',
 			'prettier/prettier': ['error', { endOfLine: 'auto' }]
 		}
 	}

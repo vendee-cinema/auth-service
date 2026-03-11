@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { RpcException } from '@nestjs/microservices'
 import { Account } from '@prisma/generated/client'
+import { RpcStatus } from '@vendee-cinema/common'
 import type {
+	RefreshRequest,
 	SendOtpRequest,
 	VerifyOtpRequest
 } from '@vendee-cinema/contracts/gen/auth'
@@ -91,5 +93,18 @@ export class AuthService {
 			await this.authRepository.update(account.id, { isEmailVerified: true })
 
 		return this.generateTokens(account.id)
+	}
+
+	public async refresh(data: RefreshRequest) {
+		const { refreshToken } = data
+		console.log(refreshToken)
+
+		const { valid, reason, userId } = this.passportService.verify(refreshToken)
+		if (!valid)
+			throw new RpcException({
+				code: RpcStatus.UNAUTHENTICATED,
+				details: reason
+			})
+		return this.generateTokens(userId)
 	}
 }
