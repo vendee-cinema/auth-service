@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { RpcException } from '@nestjs/microservices'
 import { Account } from '@prisma/generated/client'
 import type {
 	SendOtpRequest,
 	VerifyOtpRequest
 } from '@vendee-cinema/contracts/gen/auth'
+import { PassportService, TokenPayload } from '@vendee-cinema/passport'
+
+import type { AllConfigs } from '@/config/interfaces'
 
 import { OtpService } from '../otp'
 
@@ -12,10 +16,35 @@ import { AuthRepository } from './auth.repository'
 
 @Injectable()
 export class AuthService {
+	private readonly ACCESS_TOKEN_TTL: number
+	private readonly REFRESH_TOKEN_TTL: number
+
 	public constructor(
+		private readonly configService: ConfigService<AllConfigs>,
 		private readonly authRepository: AuthRepository,
-		private readonly otpService: OtpService
-	) {}
+		private readonly otpService: OtpService,
+		private readonly passportService: PassportService
+	) {
+		this.ACCESS_TOKEN_TTL = configService.get('passport.accessTtl', {
+			infer: true
+		})
+		this.REFRESH_TOKEN_TTL = configService.get('passport.refreshTtl', {
+			infer: true
+		})
+	}
+
+	private generateTokens(userId: string) {
+		const payload: TokenPayload = { sub: userId }
+		const accessToken = this.passportService.generate(
+			String(payload.sub),
+			this.ACCESS_TOKEN_TTL
+		)
+		const refreshToken = this.passportService.generate(
+			String(payload.sub),
+			this.REFRESH_TOKEN_TTL
+		)
+		return { accessToken, refreshToken }
+	}
 
 	public async sendOtp(data: SendOtpRequest) {
 		const { identifier, type } = data
@@ -61,7 +90,6 @@ export class AuthService {
 		if (type === 'email' && !account.isEmailVerified)
 			await this.authRepository.update(account.id, { isEmailVerified: true })
 
-		// mock for now
-		return { accessToken: '123456', refreshToken: '123456' }
+		return this.generateTokens(account.id)
 	}
 }

@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './app.module'
 import type { AllConfigs } from './config/interfaces'
-import { createGrpcServer } from './infrastructure/grpc/grpc.server'
+import { createGrpcServer } from './infrastructure/grpc'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)

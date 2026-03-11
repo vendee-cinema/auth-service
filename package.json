@@ -33,6 +33,7 @@
 		"@vendee-cinema/common": "^1.0.0",
 		"@vendee-cinema/contracts": "^1.0.3",
 		"@vendee-cinema/core": "^1.0.4",
+		"@vendee-cinema/passport": "^1.0.3",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.15.1",
 		"ioredis": "^5.10.0",
