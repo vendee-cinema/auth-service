@@ -19,7 +19,7 @@ export class OtpService {
 	public async send(identifier: string, type: 'phone' | 'email') {
 		const { code, hash } = this.generateCode()
 		await this.redis.set(`otp:${type}:${identifier}`, hash, 'EX', 300)
-		return code
+		return { code, hash }
 	}
 
 	public async verify(
