@@ -6,17 +6,10 @@ import { OtpService } from '../otp'
 import { TokenService } from '../token'
 
 import { AuthController } from './auth.controller'
-import { AuthRepository } from './auth.repository'
 import { AuthService } from './auth.service'
 
 @Module({
 	controllers: [AuthController],
-	providers: [
-		AuthService,
-		AuthRepository,
-		UserRepository,
-		OtpService,
-		TokenService
-	]
+	providers: [AuthService, UserRepository, OtpService, TokenService]
 })
 export class AuthModule {}

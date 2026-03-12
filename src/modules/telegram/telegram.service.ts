@@ -2,11 +2,16 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { RpcException } from '@nestjs/microservices'
 import { RpcStatus } from '@vendee-cinema/common'
-import type { TelegramVerifyRequest } from '@vendee-cinema/contracts/gen/auth'
+import type {
+	TelegramCompleteRequest,
+	TelegramConsumeRequest,
+	TelegramVerifyRequest
+} from '@vendee-cinema/contracts/gen/auth'
 import { createHash, createHmac, randomBytes } from 'crypto'
 
 import { AllConfigs } from '@/config/interfaces'
 import { RedisService } from '@/infrastructure/redis'
+import { UserRepository } from '@/shared/repositories'
 
 import { TokenService } from '../token'
 
@@ -23,6 +28,7 @@ export class TelegramService {
 		private readonly redis: RedisService,
 		private readonly configService: ConfigService<AllConfigs>,
 		private readonly telegramRepository: TelegramRepository,
+		private readonly userRepository: UserRepository,
 		private readonly tokenService: TokenService
 	) {
 		this.BOT_ID = configService.get('telegram.botId', { infer: true })
@@ -48,7 +54,7 @@ export class TelegramService {
 
 		const secretKey = createHash('sha256')
 			.update(`${this.BOT_ID}:${this.BOT_TOKEN}`)
-			.digest('hex')
+			.digest()
 
 		const hmac = createHmac('sha256', secretKey)
 			.update(dataCheckString)
@@ -88,5 +94,48 @@ export class TelegramService {
 			300
 		)
 		return { url: `https://t.me/${this.BOT_USERNAME}?start=${sessionId}` }
+	}
+
+	public async complete(data: TelegramCompleteRequest) {
+		const { sessionId, phone } = data
+		const raw = await this.redis.get(`telegram_session:${sessionId}`)
+		if (!raw)
+			throw new RpcException({
+				code: RpcStatus.NOT_FOUND,
+				details: 'Session not found'
+			})
+
+		const { telegramId } = JSON.parse(raw)
+		let user = await this.userRepository.findByPhone(phone)
+		if (!user) user = await this.userRepository.create({ phone })
+		await this.userRepository.update(user.id, {
+			telegramId,
+			isPhoneVerified: true
+		})
+
+		const tokens = this.tokenService.generate(user.id)
+		await this.redis.set(
+			`telegram_tokens:${sessionId}`,
+			JSON.stringify(tokens),
+			'EX',
+			120
+		)
+
+		await this.redis.del(`telegram_session:${sessionId}`)
+		return { sessionId }
+	}
+
+	public async consumeSession(data: TelegramConsumeRequest) {
+		const { sessionId } = data
+		const raw = await this.redis.get(`telegram_tokens:${sessionId}`)
+		if (!raw)
+			throw new RpcException({
+				code: RpcStatus.NOT_FOUND,
+				details: 'Session not found'
+			})
+
+		const tokens = JSON.parse(raw)
+		await this.redis.del(`telegram_tokens:${sessionId}`)
+		return tokens
 	}
 }
