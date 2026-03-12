@@ -33,7 +33,7 @@
 		"@prisma/adapter-pg": "^7.4.2",
 		"@prisma/client": "^7.4.2",
 		"@vendee-cinema/common": "^1.0.1",
-		"@vendee-cinema/contracts": "^1.0.6",
+		"@vendee-cinema/contracts": "^1.0.7",
 		"@vendee-cinema/core": "^1.0.4",
 		"@vendee-cinema/passport": "^1.0.3",
 		"class-transformer": "^0.5.1",

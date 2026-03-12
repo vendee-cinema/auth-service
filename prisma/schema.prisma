@@ -11,9 +11,10 @@ datasource db {
 model Account {
   id String @id @default(nanoid())
 
-  phone String? @unique
-  email String? @unique
-  role  Role    @default(USER)
+  phone      String? @unique
+  email      String? @unique
+  role       Role    @default(USER)
+  telegramId String? @unique @map("telegram_id")
 
   isPhoneVerified Boolean @default(false) @map("is_phone_verified")
   isEmailVerified Boolean @default(false) @map("is_email_verified")

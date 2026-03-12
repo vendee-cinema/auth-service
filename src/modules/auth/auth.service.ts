@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import { RpcException } from '@nestjs/microservices'
 import { Account } from '@prisma/generated/client'
 import { RpcStatus } from '@vendee-cinema/common'
@@ -8,47 +7,22 @@ import type {
 	SendOtpRequest,
 	VerifyOtpRequest
 } from '@vendee-cinema/contracts/gen/auth'
-import { PassportService, TokenPayload } from '@vendee-cinema/passport'
 
-import type { AllConfigs } from '@/config/interfaces'
 import { UserRepository } from '@/shared/repositories'
 
 import { OtpService } from '../otp'
+import { TokenService } from '../token'
 
 import { AuthRepository } from './auth.repository'
 
 @Injectable()
 export class AuthService {
-	private readonly ACCESS_TOKEN_TTL: number
-	private readonly REFRESH_TOKEN_TTL: number
-
 	public constructor(
-		private readonly configService: ConfigService<AllConfigs>,
 		private readonly authRepository: AuthRepository,
 		private readonly userRepository: UserRepository,
 		private readonly otpService: OtpService,
-		private readonly passportService: PassportService
-	) {
-		this.ACCESS_TOKEN_TTL = configService.get('passport.accessTtl', {
-			infer: true
-		})
-		this.REFRESH_TOKEN_TTL = configService.get('passport.refreshTtl', {
-			infer: true
-		})
-	}
-
-	private generateTokens(userId: string) {
-		const payload: TokenPayload = { sub: userId }
-		const accessToken = this.passportService.generate(
-			String(payload.sub),
-			this.ACCESS_TOKEN_TTL
-		)
-		const refreshToken = this.passportService.generate(
-			String(payload.sub),
-			this.REFRESH_TOKEN_TTL
-		)
-		return { accessToken, refreshToken }
-	}
+		private readonly tokenService: TokenService
+	) {}
 
 	public async sendOtp(data: SendOtpRequest) {
 		const { identifier, type } = data
@@ -94,19 +68,19 @@ export class AuthService {
 		if (type === 'email' && !account.isEmailVerified)
 			await this.userRepository.update(account.id, { isEmailVerified: true })
 
-		return this.generateTokens(account.id)
+		return this.tokenService.generate(account.id)
 	}
 
 	public async refresh(data: RefreshRequest) {
 		const { refreshToken } = data
 		console.log(refreshToken)
 
-		const { valid, reason, userId } = this.passportService.verify(refreshToken)
+		const { valid, reason, userId } = this.tokenService.verify(refreshToken)
 		if (!valid)
 			throw new RpcException({
 				code: RpcStatus.UNAUTHENTICATED,
 				details: reason
 			})
-		return this.generateTokens(userId)
+		return this.tokenService.generate(userId)
 	}
 }
