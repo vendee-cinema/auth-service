@@ -15,3 +15,11 @@ export const Role = {
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const ContactType = {
+  PHONE: 'PHONE',
+  EMAIL: 'EMAIL'
+} as const
+
+export type ContactType = (typeof ContactType)[keyof typeof ContactType]

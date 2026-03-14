@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { RpcException } from '@nestjs/microservices'
+import { ContactType } from '@prisma/generated/enums'
 import { RpcStatus } from '@vendee-cinema/common'
 import { createHash } from 'node:crypto'
 import { generateCode } from 'patcode'
@@ -16,17 +17,13 @@ export class OtpService {
 		return { code, hash }
 	}
 
-	public async send(identifier: string, type: 'phone' | 'email') {
+	public async send(identifier: string, type: ContactType) {
 		const { code, hash } = this.generateCode()
 		await this.redis.set(`otp:${type}:${identifier}`, hash, 'EX', 300)
 		return { code, hash }
 	}
 
-	public async verify(
-		identifier: string,
-		code: string,
-		type: 'phone' | 'email'
-	) {
+	public async verify(identifier: string, code: string, type: ContactType) {
 		const storedHash = await this.redis.get(`otp:${type}:${identifier}`)
 		if (!storedHash)
 			throw new RpcException({

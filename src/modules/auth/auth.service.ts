@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { RpcException } from '@nestjs/microservices'
-import { Account } from '@prisma/generated/client'
-import { RpcStatus } from '@vendee-cinema/common'
-import type {
-	RefreshRequest,
-	SendOtpRequest,
-	VerifyOtpRequest
+import { Account, ContactType } from '@prisma/generated/client'
+import { convertEnum, RpcStatus } from '@vendee-cinema/common'
+import {
+	type RefreshRequest,
+	type SendOtpRequest,
+	type VerifyOtpRequest
 } from '@vendee-cinema/contracts/gen/auth'
 
+import { MessagingService } from '@/infrastructure/messaging'
 import { UserRepository } from '@/shared/repositories'
 
 import { OtpService } from '../otp'
@@ -18,7 +19,8 @@ export class AuthService {
 	public constructor(
 		private readonly userRepository: UserRepository,
 		private readonly otpService: OtpService,
-		private readonly tokenService: TokenService
+		private readonly tokenService: TokenService,
+		private readonly messagingService: MessagingService
 	) {}
 
 	public async sendOtp(data: SendOtpRequest) {
@@ -26,21 +28,32 @@ export class AuthService {
 
 		let account: Account | null
 
-		if (type === 'phone')
+		if (convertEnum(ContactType, type) === ContactType.PHONE)
 			account = await this.userRepository.findByPhone(identifier)
 		else account = await this.userRepository.findByEmail(identifier)
 
 		if (!account)
 			account = await this.userRepository.create({
-				email: type === 'email' ? identifier : undefined,
-				phone: type === 'phone' ? identifier : undefined
+				email:
+					convertEnum(ContactType, type) === ContactType.EMAIL
+						? identifier
+						: undefined,
+				phone:
+					convertEnum(ContactType, type) === ContactType.PHONE
+						? identifier
+						: undefined
 			})
 
-		const code = await this.otpService.send(
+		const { code } = await this.otpService.send(
 			identifier,
-			type as 'phone' | 'email'
+			convertEnum(ContactType, type)
 		)
-		console.debug('CODE: ', code)
+
+		await this.messagingService.otpRequested({
+			identifier,
+			type: convertEnum(ContactType, type),
+			code
+		})
 
 		return { ok: true }
 	}
@@ -48,21 +61,31 @@ export class AuthService {
 	public async verifyOtp(data: VerifyOtpRequest) {
 		const { code, identifier, type } = data
 
-		await this.otpService.verify(identifier, code, type as 'phone' | 'email')
+		await this.otpService.verify(
+			identifier,
+			code,
+			convertEnum(ContactType, type)
+		)
 
 		let account: Account | null
 
-		if (type === 'phone')
+		if (convertEnum(ContactType, type) === ContactType.PHONE)
 			account = await this.userRepository.findByPhone(identifier)
 		else account = await this.userRepository.findByEmail(identifier)
 
 		if (!account)
 			throw new RpcException({ code: 5, details: 'Account not found' })
 
-		if (type === 'phone' && !account.isPhoneVerified)
+		if (
+			convertEnum(ContactType, type) === ContactType.PHONE &&
+			!account.isPhoneVerified
+		)
 			await this.userRepository.update(account.id, { isPhoneVerified: true })
 
-		if (type === 'email' && !account.isEmailVerified)
+		if (
+			convertEnum(ContactType, type) === ContactType.EMAIL &&
+			!account.isEmailVerified
+		)
 			await this.userRepository.update(account.id, { isEmailVerified: true })
 
 		return this.tokenService.generate(account.id)
@@ -70,7 +93,6 @@ export class AuthService {
 
 	public async refresh(data: RefreshRequest) {
 		const { refreshToken } = data
-		console.log(refreshToken)
 
 		const { valid, reason, userId } = this.tokenService.verify(refreshToken)
 		if (!valid)
@@ -78,6 +100,7 @@ export class AuthService {
 				code: RpcStatus.UNAUTHENTICATED,
 				details: reason
 			})
+
 		return this.tokenService.generate(userId)
 	}
 }

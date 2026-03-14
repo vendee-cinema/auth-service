@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { RpcException } from '@nestjs/microservices'
-import { convertEnum, RpcStatus } from '@vendee-cinema/common'
+import { ContactType } from '@prisma/generated/enums'
+import { RpcStatus } from '@vendee-cinema/common'
 import {
 	ConfirmEmailChangeRequest,
 	ConfirmPhoneChangeRequest,
 	type GetAccountRequest,
 	InitEmailChangeRequest,
-	InitPhoneChangeRequest
+	InitPhoneChangeRequest,
+	Role
 } from '@vendee-cinema/contracts/gen/account'
 
 import { UserRepository } from '@/shared/repositories'
@@ -14,13 +16,6 @@ import { UserRepository } from '@/shared/repositories'
 import { OtpService } from '../otp'
 
 import { AccountRepository } from './account.repository'
-
-// workaround for now: woulda fix later
-enum Role {
-	USER = 0,
-	ADMIN = 1,
-	UNRECOGNIZED = -1
-}
 
 @Injectable()
 export class AccountService {
@@ -42,7 +37,7 @@ export class AccountService {
 			id: account.id,
 			phone: account.phone,
 			email: account.email,
-			role: convertEnum(Role, account.role),
+			role: account.role as Role,
 			isPhoneVerified: account.isPhoneVerified,
 			isEmailVerified: account.isEmailVerified
 		}
@@ -57,12 +52,12 @@ export class AccountService {
 				details: 'Email already in use'
 			})
 
-		const { code, hash } = await this.otpService.send(email, 'email')
+		const { code, hash } = await this.otpService.send(email, ContactType.EMAIL)
 		console.log('CODE: ', code)
 
 		await this.accountRepository.upsertPendingChange({
 			accountId: userId,
-			type: 'email',
+			type: ContactType.EMAIL,
 			value: email,
 			codeHash: hash,
 			expiresAt: new Date(Date.now() + 5 * 60 * 1000)
@@ -75,7 +70,7 @@ export class AccountService {
 		const { code, email, userId } = data
 		const pending = await this.accountRepository.findPendingChange(
 			userId,
-			'email'
+			ContactType.EMAIL
 		)
 		if (!pending)
 			throw new RpcException({
@@ -92,9 +87,9 @@ export class AccountService {
 				code: RpcStatus.NOT_FOUND,
 				details: 'Code expired'
 			})
-		await this.otpService.verify(pending.value, code, 'email')
+		await this.otpService.verify(pending.value, code, ContactType.EMAIL)
 		await this.userRepository.update(userId, { email, isEmailVerified: true })
-		await this.accountRepository.deletePendingChange(userId, 'email')
+		await this.accountRepository.deletePendingChange(userId, ContactType.EMAIL)
 		return { ok: true }
 	}
 
@@ -106,11 +101,11 @@ export class AccountService {
 				code: RpcStatus.ALREADY_EXISTS,
 				details: 'Phone already in use'
 			})
-		const { code, hash } = await this.otpService.send(phone, 'phone')
+		const { code, hash } = await this.otpService.send(phone, ContactType.EMAIL)
 		console.log('CODE: ', code)
 		await this.accountRepository.upsertPendingChange({
 			accountId: userId,
-			type: 'phone',
+			type: ContactType.EMAIL,
 			value: phone,
 			codeHash: hash,
 			expiresAt: new Date(Date.now() + 5 * 60 * 1000)
@@ -122,7 +117,7 @@ export class AccountService {
 		const { code, phone, userId } = data
 		const pending = await this.accountRepository.findPendingChange(
 			userId,
-			'phone'
+			ContactType.PHONE
 		)
 		if (!pending)
 			throw new RpcException({
@@ -139,9 +134,9 @@ export class AccountService {
 				code: RpcStatus.NOT_FOUND,
 				details: 'Code expired'
 			})
-		await this.otpService.verify(pending.value, code, 'phone')
+		await this.otpService.verify(pending.value, code, ContactType.PHONE)
 		await this.userRepository.update(userId, { phone, isPhoneVerified: true })
-		await this.accountRepository.deletePendingChange(userId, 'phone')
+		await this.accountRepository.deletePendingChange(userId, ContactType.PHONE)
 		return { ok: true }
 	}
 }

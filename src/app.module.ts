@@ -8,23 +8,26 @@ import {
 	redisEnv,
 	telegramEnv
 } from './config/env'
+import { rmqEnv } from './config/env/rmq.env'
 import { AllConfigs } from './config/interfaces'
+import { MessagingModule } from './infrastructure/messaging'
 import { PrismaModule } from './infrastructure/prisma'
 import { RedisModule } from './infrastructure/redis'
 import { AccountModule } from './modules/account'
 import { AuthModule } from './modules/auth'
 import { OtpModule } from './modules/otp'
 import { TelegramModule } from './modules/telegram'
-import { TokenModule } from './modules/token/token.module';
+import { TokenModule } from './modules/token'
 
 @Module({
 	imports: [
 		ConfigModule.forRoot<AllConfigs>({
 			isGlobal: true,
-			load: [databaseEnv, grpcEnv, passportEnv, redisEnv, telegramEnv]
+			load: [databaseEnv, grpcEnv, passportEnv, redisEnv, rmqEnv, telegramEnv]
 		}),
 		PrismaModule,
 		RedisModule,
+		MessagingModule,
 		AuthModule,
 		OtpModule,
 		AccountModule,
