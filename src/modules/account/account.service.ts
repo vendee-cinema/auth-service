@@ -11,6 +11,7 @@ import {
 	Role
 } from '@vendee-cinema/contracts/gen/account'
 
+import { MessagingService } from '@/infrastructure/messaging'
 import { UserRepository } from '@/shared/repositories'
 
 import { OtpService } from '../otp'
@@ -20,6 +21,7 @@ import { AccountRepository } from './account.repository'
 @Injectable()
 export class AccountService {
 	public constructor(
+		private readonly messagingService: MessagingService,
 		private readonly accountRepository: AccountRepository,
 		private readonly userRepository: UserRepository,
 		private readonly otpService: OtpService
@@ -51,10 +53,8 @@ export class AccountService {
 				code: RpcStatus.ALREADY_EXISTS,
 				details: 'Email already in use'
 			})
-
 		const { code, hash } = await this.otpService.send(email, ContactType.EMAIL)
-		console.log('CODE: ', code)
-
+		await this.messagingService.emailChanged({ email, code })
 		await this.accountRepository.upsertPendingChange({
 			accountId: userId,
 			type: ContactType.EMAIL,
@@ -62,7 +62,6 @@ export class AccountService {
 			codeHash: hash,
 			expiresAt: new Date(Date.now() + 5 * 60 * 1000)
 		})
-
 		return { ok: true }
 	}
 
@@ -101,11 +100,11 @@ export class AccountService {
 				code: RpcStatus.ALREADY_EXISTS,
 				details: 'Phone already in use'
 			})
-		const { code, hash } = await this.otpService.send(phone, ContactType.EMAIL)
-		console.log('CODE: ', code)
+		const { code, hash } = await this.otpService.send(phone, ContactType.PHONE)
+		await this.messagingService.phoneChanged({ phone, code })
 		await this.accountRepository.upsertPendingChange({
 			accountId: userId,
-			type: ContactType.EMAIL,
+			type: ContactType.PHONE,
 			value: phone,
 			codeHash: hash,
 			expiresAt: new Date(Date.now() + 5 * 60 * 1000)
