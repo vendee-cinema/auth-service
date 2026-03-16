@@ -18,6 +18,7 @@ import { AuthModule } from './modules/auth'
 import { OtpModule } from './modules/otp'
 import { TelegramModule } from './modules/telegram'
 import { TokenModule } from './modules/token'
+import { UserModule } from './modules/user'
 
 @Module({
 	imports: [
@@ -32,7 +33,8 @@ import { TokenModule } from './modules/token'
 		OtpModule,
 		AccountModule,
 		TelegramModule,
-		TokenModule
+		TokenModule,
+		UserModule
 	]
 })
 export class AppModule {}

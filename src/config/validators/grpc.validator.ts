@@ -8,4 +8,8 @@ export class GrpcValidator {
 	@IsInt()
 	@IsNotEmpty()
 	public GRPC_PORT: number
+
+	@IsString()
+	@IsNotEmpty()
+	public USER_GRPC_URL: string
 }

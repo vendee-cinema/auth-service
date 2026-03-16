@@ -14,6 +14,7 @@ import { RedisService } from '@/infrastructure/redis'
 import { UserRepository } from '@/shared/repositories'
 
 import { TokenService } from '../token'
+import { UserClientGrpc } from '../user'
 
 import { TelegramRepository } from './telegram.repository'
 
@@ -29,7 +30,8 @@ export class TelegramService {
 		private readonly configService: ConfigService<AllConfigs>,
 		private readonly telegramRepository: TelegramRepository,
 		private readonly userRepository: UserRepository,
-		private readonly tokenService: TokenService
+		private readonly tokenService: TokenService,
+		private readonly userClient: UserClientGrpc
 	) {
 		this.BOT_ID = configService.get('telegram.botId', { infer: true })
 		this.BOT_TOKEN = configService.get('telegram.botToken', { infer: true })
@@ -84,6 +86,8 @@ export class TelegramService {
 		const { id: telegramId, username } = data.query
 		const exists = await this.telegramRepository.findByTelegramId(telegramId)
 		if (exists && exists.phone) return this.tokenService.generate(exists.id)
+
+		this.userClient.create({ id: exists.id }).subscribe()
 
 		const sessionId = randomBytes(16).toString('hex')
 		// TODO: add checks for username, first_name, last_name etc.

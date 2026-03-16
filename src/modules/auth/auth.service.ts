@@ -13,6 +13,7 @@ import { UserRepository } from '@/shared/repositories'
 
 import { OtpService } from '../otp'
 import { TokenService } from '../token'
+import { UserClientGrpc } from '../user'
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,8 @@ export class AuthService {
 		private readonly userRepository: UserRepository,
 		private readonly otpService: OtpService,
 		private readonly tokenService: TokenService,
-		private readonly messagingService: MessagingService
+		private readonly messagingService: MessagingService,
+		private readonly userClient: UserClientGrpc
 	) {}
 
 	public async sendOtp(data: SendOtpRequest) {
@@ -87,6 +89,8 @@ export class AuthService {
 			!account.isEmailVerified
 		)
 			await this.userRepository.update(account.id, { isEmailVerified: true })
+
+		this.userClient.create({ id: account.id }).subscribe()
 
 		return this.tokenService.generate(account.id)
 	}

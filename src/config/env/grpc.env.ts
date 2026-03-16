@@ -9,6 +9,7 @@ export const grpcEnv = registerAs<GrpcConfig>('grpc', () => {
 	validateEnv(process.env, GrpcValidator)
 	return {
 		host: process.env.GRPC_HOST,
-		port: parseInt(process.env.GRPC_PORT)
+		port: parseInt(process.env.GRPC_PORT),
+		clients: { user: process.env.USER_GRPC_URL }
 	}
 })

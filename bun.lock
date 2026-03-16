@@ -16,7 +16,7 @@
         "@prisma/adapter-pg": "^7.4.2",
         "@prisma/client": "^7.4.2",
         "@vendee-cinema/common": "^1.0.1",
-        "@vendee-cinema/contracts": "^1.1.6",
+        "@vendee-cinema/contracts": "^1.1.7",
         "@vendee-cinema/core": "^1.0.4",
         "@vendee-cinema/passport": "^1.0.3",
         "amqp-connection-manager": "^5.0.0",
@@ -511,7 +511,7 @@
 
     "@vendee-cinema/common": ["@vendee-cinema/common@1.0.1", "", {}, "sha512-SRWbBJxVN9Ipb42/hpCKjCp4U43rFG4pL57QgiYOj9iKOa6GOpCyChNpGSujceC34x1d2kPF68H1QltICjG9aA=="],
 
-    "@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.1.6", "", { "dependencies": { "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-2fF/6VM5kKmcEElLNg8rnBOXhy/sfHq9VUMCBdqdMQQe3KDafRPkjwSDepxOKBLTQtGf9tUYIZjIWzt7zzATlw=="],
+    "@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.1.7", "", { "dependencies": { "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-nD8LsappqwXLuzaSy5G4c366RYm4ichvrWF0JpUrSZBBeTIWoRVpt7CTaNM3ai5neTklK6DoLmRguurPobvugg=="],
 
     "@vendee-cinema/core": ["@vendee-cinema/core@1.0.4", "", { "dependencies": { "@trivago/prettier-plugin-sort-imports": "6.0.2" }, "peerDependencies": { "prettier": "^3.8.1" } }, "sha512-Ik86wW9E01v5/4Ko8qkmhHOSGJgjbTQB28KWJ/23sxN0A0dKkR8pQ9V4lcN38py+QbvX4SlgT4DoUNfSbzf3qw=="],
 
