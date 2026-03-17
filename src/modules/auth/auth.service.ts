@@ -51,6 +51,8 @@ export class AuthService {
 			convertEnum(ContactType, type)
 		)
 
+		console.log('CODE: ', code)
+
 		await this.messagingService.otpRequested({
 			identifier,
 			type: convertEnum(ContactType, type),

@@ -6,9 +6,9 @@ import {
 	grpcEnv,
 	passportEnv,
 	redisEnv,
+	rmqEnv,
 	telegramEnv
 } from './config/env'
-import { rmqEnv } from './config/env/rmq.env'
 import { AllConfigs } from './config/interfaces'
 import { MessagingModule } from './infrastructure/messaging'
 import { PrismaModule } from './infrastructure/prisma'
@@ -24,6 +24,11 @@ import { UserModule } from './modules/user'
 	imports: [
 		ConfigModule.forRoot<AllConfigs>({
 			isGlobal: true,
+			envFilePath: [
+				`.env.${process.env.NODE_ENV}.local`,
+				`.env.${process.env.NODE_ENV}`,
+				'.env'
+			],
 			load: [databaseEnv, grpcEnv, passportEnv, redisEnv, rmqEnv, telegramEnv]
 		}),
 		PrismaModule,
