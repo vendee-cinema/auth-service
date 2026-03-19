@@ -36,6 +36,7 @@
 		"@vendee-cinema/contracts": "^1.1.8",
 		"@vendee-cinema/core": "^1.0.4",
 		"@vendee-cinema/passport": "^1.0.3",
+		"@willsoto/nestjs-prometheus": "^6.0.2",
 		"amqp-connection-manager": "^5.0.0",
 		"amqplib": "^0.10.9",
 		"class-transformer": "^0.5.1",
@@ -43,6 +44,7 @@
 		"ioredis": "^5.10.0",
 		"patcode": "^1.0.1",
 		"prisma": "^7.4.2",
+		"prom-client": "^15.1.3",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.1"
 	},
