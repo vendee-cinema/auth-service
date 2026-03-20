@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { LoggerModule } from 'nestjs-pino'
 
 import {
 	databaseEnv,
@@ -31,6 +32,21 @@ import { ObservabilityModule } from './observability'
 				'.env'
 			],
 			load: [databaseEnv, grpcEnv, passportEnv, redisEnv, rmqEnv, telegramEnv]
+		}),
+		// TODO: setup config
+		LoggerModule.forRoot({
+			pinoHttp: {
+				level: process.env.LOG_LEVEL,
+				transport: {
+					target: 'pino/file',
+					options: {
+						destination: '/var/log/services/auth/auth.log',
+						mkdir: true
+					}
+				},
+				messageKey: 'msg',
+				customProps: () => ({ service: 'auth-service' })
+			}
 		}),
 		PrismaModule,
 		RedisModule,
