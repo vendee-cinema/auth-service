@@ -8,7 +8,7 @@ import type {
 	TelegramInitResponse,
 	TelegramVerifyRequest,
 	TelegramVerifyResponse
-} from '@vendee-cinema/contracts/gen/auth'
+} from '@vendee-cinema/contracts/gen/ts/auth'
 
 import { TelegramService } from './telegram.service'
 

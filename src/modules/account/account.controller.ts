@@ -11,7 +11,7 @@ import type {
 	InitEmailChangeResponse,
 	InitPhoneChangeRequest,
 	InitPhoneChangeResponse
-} from '@vendee-cinema/contracts/gen/account'
+} from '@vendee-cinema/contracts/gen/ts/account'
 
 import { AccountService } from './account.service'
 

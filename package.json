@@ -38,7 +38,7 @@
 		"@prisma/adapter-pg": "^7.4.2",
 		"@prisma/client": "^7.4.2",
 		"@vendee-cinema/common": "^1.1.2",
-		"@vendee-cinema/contracts": "^1.1.8",
+		"@vendee-cinema/contracts": "^1.1.14",
 		"@vendee-cinema/core": "^1.0.4",
 		"@vendee-cinema/passport": "^1.0.3",
 		"@willsoto/nestjs-prometheus": "^6.0.2",
