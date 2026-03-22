@@ -24,6 +24,7 @@ export class RedisService
 			password: configService.get('redis.password', { infer: true }),
 			host: configService.get('redis.host', { infer: true }),
 			port: configService.get('redis.port', { infer: true }),
+			db: configService.getOrThrow<number>('redis.db', { infer: true }),
 			maxRetriesPerRequest: 5,
 			enableOfflineQueue: true
 		})

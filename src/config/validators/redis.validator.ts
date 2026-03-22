@@ -18,4 +18,8 @@ export class RedisValidator {
 	@Max(65535)
 	@IsNotEmpty()
 	public REDIS_PORT: number
+
+	@IsInt()
+	@IsNotEmpty()
+	public REDIS_DB: number
 }
