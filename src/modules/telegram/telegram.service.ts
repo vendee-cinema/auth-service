@@ -6,7 +6,7 @@ import type {
 	TelegramCompleteRequest,
 	TelegramConsumeRequest,
 	TelegramVerifyRequest
-} from '@vendee-cinema/contracts/gen/ts/auth'
+} from '@vendee-cinema/contracts/auth'
 import { createHash, createHmac, randomBytes } from 'crypto'
 
 import { AllConfigs } from '@/config/interfaces'

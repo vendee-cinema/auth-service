@@ -9,7 +9,7 @@ import {
 	InitEmailChangeRequest,
 	InitPhoneChangeRequest,
 	Role
-} from '@vendee-cinema/contracts/gen/ts/account'
+} from '@vendee-cinema/contracts/account'
 
 import { MessagingService } from '@/infrastructure/messaging'
 import { UserRepository } from '@/shared/repositories'

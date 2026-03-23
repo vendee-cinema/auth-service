@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
 import type {
 	EmailChangedEvent,
-	OtpRequestedEvent,
 	PhoneChangedEvent
-} from '@vendee-cinema/contracts'
+} from '@vendee-cinema/contracts/account'
+import type { OtpRequestedEvent } from '@vendee-cinema/contracts/auth'
 
 @Injectable()
 export class MessagingService {

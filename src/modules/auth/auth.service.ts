@@ -6,7 +6,7 @@ import {
 	type RefreshRequest,
 	type SendOtpRequest,
 	type VerifyOtpRequest
-} from '@vendee-cinema/contracts/gen/ts/auth'
+} from '@vendee-cinema/contracts/auth'
 import { PinoLogger } from 'nestjs-pino'
 
 import { MessagingService } from '@/infrastructure/messaging'

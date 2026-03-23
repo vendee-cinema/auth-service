@@ -7,7 +7,7 @@ import type {
 	SendOtpResponse,
 	VerifyOtpRequest,
 	VerifyOtpResponse
-} from '@vendee-cinema/contracts/gen/ts/auth'
+} from '@vendee-cinema/contracts/auth'
 
 import { AuthService } from './auth.service'
 
