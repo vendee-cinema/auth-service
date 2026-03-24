@@ -20,8 +20,8 @@
         "@opentelemetry/semantic-conventions": "^1.40.0",
         "@prisma/adapter-pg": "^7.4.2",
         "@prisma/client": "^7.4.2",
-        "@vendee-cinema/common": "^1.1.2",
-        "@vendee-cinema/contracts": "^1.2.10",
+        "@vendee-cinema/common": "^1.2.5",
+        "@vendee-cinema/contracts": "1.2.10",
         "@vendee-cinema/core": "^1.0.4",
         "@vendee-cinema/passport": "^1.0.3",
         "@willsoto/nestjs-prometheus": "^6.0.2",
@@ -696,7 +696,7 @@
 
     "@unrs/resolver-binding-win32-x64-msvc": ["@unrs/resolver-binding-win32-x64-msvc@1.11.1", "", { "os": "win32", "cpu": "x64" }, "sha512-lrW200hZdbfRtztbygyaq/6jP6AKE8qQN2KvPcJ+x7wiD038YtnYtZ82IMNJ69GJibV7bwL3y9FgK+5w/pYt6g=="],
 
-    "@vendee-cinema/common": ["@vendee-cinema/common@1.1.2", "", { "dependencies": { "@nestjs/common": "^11.1.17", "@nestjs/config": "^4.0.3", "@nestjs/microservices": "^11.1.17", "@vendee-cinema/contracts": "^1.1.8" } }, "sha512-iHthFBsjA6XY/W6XAqEIZYJICCZZg4shS+E3x5xeBzECZ/rvfJTHDXMfS+87mZFsAb9Qhfy74sZ8Fbal6umYLw=="],
+    "@vendee-cinema/common": ["@vendee-cinema/common@1.2.5", "", { "dependencies": { "@nestjs/common": "^11.1.17", "@nestjs/config": "^4.0.3", "@nestjs/microservices": "^11.1.17", "@vendee-cinema/contracts": "^1.2.14" } }, "sha512-XdTbR3UoN52b/lYKf914Xc1IJ0rAmALbV9X10zvBJ4JbIqszKs5wyh+PGzN4P03mmu1mwrADGzFO1ER9v5SfqA=="],
 
     "@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.2.10", "", { "dependencies": { "@grpc/grpc-js": "^1.14.3", "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-fbR+V1vQAep+uHbdDTooWc7J3MoYQ3/v1Nxb7WQeU2l2fV3L9FAEYSSaSqrb+mnSmy9cLVcqFqoyNSS+b9Re1g=="],
 
@@ -1900,7 +1900,7 @@
 
     "@vendee-cinema/common/@nestjs/microservices": ["@nestjs/microservices@11.1.17", "", { "dependencies": { "iterare": "1.2.1", "tslib": "2.8.1" }, "peerDependencies": { "@grpc/grpc-js": "*", "@nestjs/common": "^11.0.0", "@nestjs/core": "^11.0.0", "@nestjs/websockets": "^11.0.0", "amqp-connection-manager": "*", "amqplib": "*", "cache-manager": "*", "ioredis": "*", "kafkajs": "*", "mqtt": "*", "nats": "*", "reflect-metadata": "^0.1.12 || ^0.2.0", "rxjs": "^7.1.0" }, "optionalPeers": ["@grpc/grpc-js", "@nestjs/websockets", "amqp-connection-manager", "amqplib", "cache-manager", "ioredis", "kafkajs", "mqtt", "nats"] }, "sha512-rubBPEEXS9PwA3LwdNN/ytjEUmON+d8+4fbiUCIFGW8i+rR/g36vrpwuvoAzcGpxlu45/TpZPfHTb0nJciG9Yw=="],
 
-    "@vendee-cinema/common/@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.1.8", "", { "dependencies": { "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-fnPxZIFe0oc3qUnE0dIuX1Yypsu62WL+8ydBRs282Gc3XZXD9OprFgzWLOOqRpR1Zpilt2c3o96/s7vhmYrKjw=="],
+    "@vendee-cinema/common/@vendee-cinema/contracts": ["@vendee-cinema/contracts@1.2.15", "", { "dependencies": { "@grpc/grpc-js": "^1.14.3", "@nestjs/microservices": "^11.1.16", "rxjs": "^7.8.2", "ts-proto": "^2.11.4" } }, "sha512-NXqGSCFl+olK8NCwun17lRXrZ2aZAHgvZqjbxP3Gv/Q+kXnSXqcTc6QD7SR6JHlfwNrwKHBvxCRcNQhLHLqNYw=="],
 
     "@vendee-cinema/contracts/@nestjs/microservices": ["@nestjs/microservices@11.1.17", "", { "dependencies": { "iterare": "1.2.1", "tslib": "2.8.1" }, "peerDependencies": { "@grpc/grpc-js": "*", "@nestjs/common": "^11.0.0", "@nestjs/core": "^11.0.0", "@nestjs/websockets": "^11.0.0", "amqp-connection-manager": "*", "amqplib": "*", "cache-manager": "*", "ioredis": "*", "kafkajs": "*", "mqtt": "*", "nats": "*", "reflect-metadata": "^0.1.12 || ^0.2.0", "rxjs": "^7.1.0" }, "optionalPeers": ["@grpc/grpc-js", "@nestjs/websockets", "amqp-connection-manager", "amqplib", "cache-manager", "ioredis", "kafkajs", "mqtt", "nats"] }, "sha512-rubBPEEXS9PwA3LwdNN/ytjEUmON+d8+4fbiUCIFGW8i+rR/g36vrpwuvoAzcGpxlu45/TpZPfHTb0nJciG9Yw=="],
 
@@ -2017,8 +2017,6 @@
     "@typescript-eslint/typescript-estree/minimatch/brace-expansion": ["brace-expansion@5.0.4", "", { "dependencies": { "balanced-match": "^4.0.2" } }, "sha512-h+DEnpVvxmfVefa4jFbCf5HdH5YMDXRsmKflpf1pILZWRFlTbJpxeU55nJl4Smt5HQaGzg1o6RHFPJaOqnmBDg=="],
 
     "@vendee-cinema/common/@nestjs/common/file-type": ["file-type@21.3.2", "", { "dependencies": { "@tokenizer/inflate": "^0.4.1", "strtok3": "^10.3.4", "token-types": "^6.1.1", "uint8array-extras": "^1.4.0" } }, "sha512-DLkUvGwep3poOV2wpzbHCOnSKGk1LzyXTv+aHFgN2VFl96wnp8YA9YjO2qPzg5PuL8q/SW9Pdi6WTkYOIh995w=="],
-
-    "@vendee-cinema/common/@vendee-cinema/contracts/@nestjs/microservices": ["@nestjs/microservices@11.1.16", "", { "dependencies": { "iterare": "1.2.1", "tslib": "2.8.1" }, "peerDependencies": { "@grpc/grpc-js": "*", "@nestjs/common": "^11.0.0", "@nestjs/core": "^11.0.0", "@nestjs/websockets": "^11.0.0", "amqp-connection-manager": "*", "amqplib": "*", "cache-manager": "*", "ioredis": "*", "kafkajs": "*", "mqtt": "*", "nats": "*", "reflect-metadata": "^0.1.12 || ^0.2.0", "rxjs": "^7.1.0" }, "optionalPeers": ["@grpc/grpc-js", "@nestjs/websockets", "amqp-connection-manager", "amqplib", "cache-manager", "ioredis", "kafkajs", "mqtt", "nats"] }, "sha512-eG/ArIq0UJyR3i/GTYuApA4OZylhuLGacVaVT9mMxQgT7ZTpp5CZgOwLNdcUUdOS6qypK3waG1m2AC54xzdf0Q=="],
 
     "accepts/mime-types/mime-db": ["mime-db@1.54.0", "", {}, "sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ=="],
 
